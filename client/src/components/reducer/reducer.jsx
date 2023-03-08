@@ -1,11 +1,13 @@
 import {
     HANDLE_CHANGE,
     HANDLE_SUBMIT,
-    HANDLE_LOGIN
+    HANDLE_LOGIN,
+    RELOAD
 } from "../action/action"
 
-
 const reducer = (state,action)=>{
+
+   
 
 if(action.type === HANDLE_CHANGE){
     return {...state, [action.payload.name]:action.payload.value}
@@ -19,6 +21,9 @@ if(action.type === HANDLE_LOGIN){
     return {...state, redirect:true, user: action.payload}
 }
 
+if(action.type === RELOAD){
+    return {...state, user:JSON.parse(localStorage.getItem("userInfo"))}
+}
 
     return state;
 }

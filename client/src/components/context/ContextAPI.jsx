@@ -1,8 +1,10 @@
-import React, { createContext, useReducer, useContext } from "react";
+import React, { createContext, useReducer, useContext, useEffect, useCallback,} from "react";
+import { useNavigate } from "react-router-dom";
 
 const UserContext = createContext();
+
 import reducer from "../reducer/reducer"
-import { HANDLE_CHANGE, HANDLE_SUBMIT, HANDLE_LOGIN} from "../action/action"
+import { HANDLE_CHANGE, HANDLE_SUBMIT, HANDLE_LOGIN, RELOAD} from "../action/action"
 // React toastify
 import {toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,19 +17,21 @@ const initialState = {
     email:"",
     password:"",
     forgottenPassword:"",
-    redirect:false,
 }
+
 
 const UserProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(reducer, initialState)
+
+    const navigate = useNavigate()
     
-    const handleChange = async(e)=>{
+    const handleChange = useCallback( async(e)=>{
        const {name, value} = e.target
        console.log(name);
        console.log(value);
         dispatch({type:HANDLE_CHANGE, payload:{name, value}})
-    }
+    },[])
 
     const handleRegister = async(e)=>{
       e.preventDefault()
@@ -36,11 +40,14 @@ const UserProvider = ({ children }) => {
         try {
          const {data} = await axios.post(`${import.meta.env.VITE_URL}/register`,{name, password, email})
         console.log(data);
+        toast("Registration successful")
+        navigate("/")
        } catch (error) {
         toast(error.response.data.msg)
         console.log(error.response.data.msg);
        }
     }
+
 
     const handleLogin = async(e)=>{
       e.preventDefault()
@@ -48,8 +55,10 @@ const UserProvider = ({ children }) => {
       dispatch({type:HANDLE_LOGIN, payload:{password, email}})
         try {
          const {data} = await axios.post(`${import.meta.env.VITE_URL}/login`,{password, email})
+         localStorage.setItem("userInfo", JSON.stringify(data))
         console.log(data);
-        history("/")
+        toast("Login successful")
+        navigate("/")
        } catch (error) {
         toast(error.response.data.err)
         console.log(error.response.data.err);
@@ -57,6 +66,9 @@ const UserProvider = ({ children }) => {
        
     }
 
+    useEffect(()=>{
+      dispatch({type:RELOAD })
+    },[])
 
     return (
       <UserContext.Provider value={

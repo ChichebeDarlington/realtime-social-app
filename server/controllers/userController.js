@@ -43,11 +43,11 @@ export const login = async (req, res)=>{
     const {email, password} = req.body;
 
 if(!email){
-    return res.status(300).json({err: "field is empty"})
+    return res.status(300).json({err: "Email field is empty"})
 }
 
 if(!password){
-    return res.status(300).json({err: "field is empty"})
+    return res.status(300).json({err: "Password field is empty"})
 }
 
     const user =  await User.findOne({email})
@@ -66,6 +66,6 @@ if(!password){
         return res.status(200).json({user,token})
     } catch (error) {
         console.log(error);
-        return res.status(400).json({err: ""})
+        return res.status(400).json({err: "Check if credentials are correct"})
     }
 }

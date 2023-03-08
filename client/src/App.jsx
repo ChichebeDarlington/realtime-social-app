@@ -10,11 +10,12 @@ import 'react-toastify/dist/ReactToastify.css';
 function App() {
 
   return (
-    <BrowserRouter>
+    // <BrowserRouter>
+    <div>
     <Navbar/>
     <ToastContainer
     position="top-center"
-    autoClose={5000}
+    autoClose={2000}
     hideProgressBar={false}
     newestOnTop={false}
     closeOnClick
@@ -29,7 +30,8 @@ function App() {
       <Route path='register'element={<Register/>} />
       <Route path='login'element={<Login/>} />
      </Routes>
-     </BrowserRouter>
+     </div>
+    //  </BrowserRouter>
   )
 }
 

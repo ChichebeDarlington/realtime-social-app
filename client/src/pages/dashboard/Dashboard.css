@@ -2,4 +2,12 @@ img{
     max-width: 70%;
     min-height: 350px;
     object-fit: cover;
+    box-shadow: inset 12px 12px 2px 1px rgba(0, 0, 255, .2),
+                inset  -7px 9px  2px 1px rgba(150, 100, 255, .7);
+}
+
+.dashboard{
+    /* box-shadow: inset 12px 12px 2px 1px rgba(0, 0, 255, .2),12px 12px,
+
+                  inset    2px 1px rgba(150, 100, 255, .2); */
 }
