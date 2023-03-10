@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios"
 
 const initialState = {
-  user:{},
+  user: {},
     name:"",
     email:"",
     password:"",
@@ -25,13 +25,23 @@ const UserProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState)
 
     const navigate = useNavigate()
-    
-    const handleChange = useCallback( async(e)=>{
+
+    const setLocalStorage = (set)=>{
+      return localStorage.setItem("userInfo", JSON.stringify(set))
+    }
+    const getLocalStorage = ()=>{
+      let userInfo = localStorage.getItem("userInfo")
+      console.log(userInfo);
+      if(userInfo){
+        return JSON.parse(userInfo)
+      }
+      return {}
+    }
+ 
+    const handleChange = async(e)=>{
        const {name, value} = e.target
-       console.log(name);
-       console.log(value);
         dispatch({type:HANDLE_CHANGE, payload:{name, value}})
-    },[])
+    }
 
     const handleRegister = async(e)=>{
       e.preventDefault()
@@ -40,6 +50,7 @@ const UserProvider = ({ children }) => {
         try {
          const {data} = await axios.post(`${import.meta.env.VITE_URL}/register`,{name, password, email})
         console.log(data);
+        setLocalStorage(data)
         toast("Registration successful")
         navigate("/")
        } catch (error) {
@@ -48,14 +59,13 @@ const UserProvider = ({ children }) => {
        }
     }
 
-
     const handleLogin = async(e)=>{
       e.preventDefault()
       const {password, email} = state;
       dispatch({type:HANDLE_LOGIN, payload:{password, email}})
         try {
          const {data} = await axios.post(`${import.meta.env.VITE_URL}/login`,{password, email})
-         localStorage.setItem("userInfo", JSON.stringify(data))
+         setLocalStorage(data)
         console.log(data);
         toast("Login successful")
         navigate("/")
@@ -66,8 +76,14 @@ const UserProvider = ({ children }) => {
        
     }
 
+    function handleLogout(){
+      dispatch({type:"LOG_OUT"})
+      localStorage.removeItem("userInfo")
+      navigate("/login")
+    }
+
     useEffect(()=>{
-      dispatch({type:RELOAD })
+      dispatch({type:RELOAD, payload: getLocalStorage()})
     },[])
 
     return (
@@ -75,7 +91,8 @@ const UserProvider = ({ children }) => {
         {...state,
           handleRegister, 
             handleChange,
-            handleLogin
+            handleLogin,
+            handleLogout
         }
         }>
         {children}

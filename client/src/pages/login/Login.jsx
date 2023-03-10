@@ -1,12 +1,8 @@
 import FormData from '../../components/formdata/FormData'
 import './Login'
-import { Link, useNavigate } from 'react-router-dom'
-import { useContextHook } from '../../components/context/ContextAPI'
+import { Link } from 'react-router-dom'
 
  const Login = () => {
-  const {redirect} = useContextHook()
-
-  const navigate = useNavigate()
   
   return (
     <div className='sign-in'>

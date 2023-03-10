@@ -22,7 +22,11 @@ if(action.type === HANDLE_LOGIN){
 }
 
 if(action.type === RELOAD){
-    return {...state, user:JSON.parse(localStorage.getItem("userInfo"))}
+    return {...state, user: action.payload}
+}
+
+if(action.type === "LOG_OUT"){
+    return {...state, user: null}
 }
 
     return state;

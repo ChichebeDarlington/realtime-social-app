@@ -23,5 +23,11 @@
     text-decoration: none;
     list-style: none;
     color: #1DA1F2;
+}
 
+.active-link{
+    background-color: darkblue;
+    color: white;
+    border-radius: 1rem;
+    text-align: center;
 }
