@@ -10,7 +10,7 @@ useContextHook
  const Navbar = () => {
   const [current, setCurrent] = useState(null)
   const {handleLogout, user} = useContextHook()
-  console.log(user);
+  // console.log(user);
 
   useEffect(()=>{
     setCurrent(location.pathname)

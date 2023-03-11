@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 const UserContext = createContext();
 
 import reducer from "../reducer/reducer"
-import { HANDLE_CHANGE, HANDLE_SUBMIT, HANDLE_LOGIN, RELOAD} from "../action/action"
+import { HANDLE_CHANGE, HANDLE_REGISTRATION, HANDLE_LOGIN, RELOAD} from "../action/action"
 // React toastify
 import {toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -31,7 +31,7 @@ const UserProvider = ({ children }) => {
     }
     const getLocalStorage = ()=>{
       let userInfo = localStorage.getItem("userInfo")
-      console.log(userInfo);
+      // console.log(userInfo);
       if(userInfo){
         return JSON.parse(userInfo)
       }
@@ -46,10 +46,9 @@ const UserProvider = ({ children }) => {
     const handleRegister = async(e)=>{
       e.preventDefault()
       const {name,password, email} = state;
-      dispatch({type:HANDLE_SUBMIT, payload:{name,password, email}})
+      dispatch({type:HANDLE_REGISTRATION, payload:{name,password, email}})
         try {
          const {data} = await axios.post(`${import.meta.env.VITE_URL}/register`,{name, password, email})
-        console.log(data);
         setLocalStorage(data)
         toast("Registration successful")
         navigate("/")
@@ -66,9 +65,8 @@ const UserProvider = ({ children }) => {
         try {
          const {data} = await axios.post(`${import.meta.env.VITE_URL}/login`,{password, email})
          setLocalStorage(data)
-        console.log(data);
         toast("Login successful")
-        navigate("/")
+        navigate("/dashboard")
        } catch (error) {
         toast(error.response.data.err)
         console.log(error.response.data.err);

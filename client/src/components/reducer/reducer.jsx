@@ -1,6 +1,6 @@
 import {
     HANDLE_CHANGE,
-    HANDLE_SUBMIT,
+    HANDLE_REGISTRATION,
     HANDLE_LOGIN,
     RELOAD
 } from "../action/action"
@@ -13,7 +13,7 @@ if(action.type === HANDLE_CHANGE){
     return {...state, [action.payload.name]:action.payload.value}
 }
 
-if(action.type === HANDLE_SUBMIT){
+if(action.type === HANDLE_REGISTRATION){
     return {...state, user: action.payload}
 }
 
