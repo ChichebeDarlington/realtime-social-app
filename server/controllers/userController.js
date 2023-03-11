@@ -1,6 +1,7 @@
 import User from "../models/User";
 import {hashPassword, comparePassword} from "../bcrypt/bcrypt"
 import jwt from "jsonwebtoken"
+import {tokenHeaders} from "../middlewares/auth.js"
 
 
 export const register = async (req, res)=>{
@@ -68,4 +69,25 @@ if(!password){
         console.log(error);
         return res.status(400).json({err: "Check if credentials are correct"})
     }
+}
+
+export const verifyUser = async(req, res)=>{
+    jwt.verify(req.token, process.env.JWT_SECRET, async(err, data)=>{
+        console.log(data);
+        if(err){
+            return res.status(401).json({err:"Invalid token"})
+        }
+
+        try {
+            const user = await User.findById(data.userId)
+            return res.status(201).json({okay:true})
+        } catch (error) {
+            console.log(error);
+        }
+
+        // return res.status(201).json({text:"protected", status: "success", data})
+    })
+   
+    
+  
 }
