@@ -1,7 +1,6 @@
 import User from "../models/User";
 import {hashPassword, comparePassword} from "../bcrypt/bcrypt"
 import jwt from "jsonwebtoken"
-import {tokenHeaders} from "../middlewares/auth.js"
 
 
 export const register = async (req, res)=>{
@@ -28,10 +27,10 @@ export const register = async (req, res)=>{
     const hashedPassword = await hashPassword(password)
 
     const user = new User({name, email, password:hashedPassword})
-    console.log(req.body);
+    // console.log(req.body);
     try {
         await user.save()
-        console.log(user);
+        // console.log(user);
         return res.status(200).json({user})
     } catch (error) {
         console.log(error);
@@ -61,9 +60,10 @@ if(!password){
         return res.status(400).json({err: "Wrong password"})
     }
 
-    const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {expiresIn: "1d"})
+    const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {expiresIn: "17d"})
 
     try {
+        // console.log(user, token);
         return res.status(200).json({user,token})
     } catch (error) {
         console.log(error);
@@ -71,23 +71,12 @@ if(!password){
     }
 }
 
-export const verifyUser = async(req, res)=>{
-    jwt.verify(req.token, process.env.JWT_SECRET, async(err, data)=>{
-        console.log(data);
-        if(err){
-            return res.status(401).json({err:"Invalid token"})
-        }
-
-        try {
-            const user = await User.findById(data.userId)
-            return res.status(201).json({okay:true})
-        } catch (error) {
-            console.log(error);
-        }
-
-        // return res.status(201).json({text:"protected", status: "success", data})
-    })
-   
-    
-  
+export const currentUser = async(req, res) =>{
+    try {
+        const user = await User.findById(req.auth.userId)
+        return res.json({okay:true})
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(400)
+    }
 }

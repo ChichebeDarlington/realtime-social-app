@@ -1,5 +1,6 @@
-import router from "./routes/userRoute.js";
+import userRouter from "./routes/userRoute.js";
 import User from "./models/User.js"
+import postRouter from "./routes/postRoute"
 import express from "express"
 import { Database } from "./database/database";
 import cors from "cors"
@@ -17,7 +18,9 @@ app.use(
     // origin: ["http://localhost:5173"],
   })
 );
-app.use("/api/", router)
+app.use("/api/", userRouter)
+app.use("/api/", postRouter)
+
 
 
 const port = process.env.PORT || 7000;
