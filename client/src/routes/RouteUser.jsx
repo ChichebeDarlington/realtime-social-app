@@ -10,17 +10,11 @@ const RouteUser = ({children}) =>{
 
      const userAuth = async()=>{
         try {
-            const {data} = await axios(`${import.meta.env.VITE_URL}/verify-user`,
-            {
-                headers: {
-                    "Authorization": `Bearer ${user.token}`
-                }
-            }
-            )
+            const {data} = await axios(`/current-user`)
             if(data.okay){
                 setOkay(data.okay)
             }
-            navigate("/login")
+            
         } catch (error) {
             navigate("/login")
         }
@@ -31,7 +25,7 @@ const RouteUser = ({children}) =>{
        if(user?.token) userAuth()
      },[user?.token])
 
-if(user.user === {}){
+if(user.user === null){
     setTimeout(()=>{
         userAuth()
     },1000)

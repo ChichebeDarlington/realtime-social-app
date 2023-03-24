@@ -1,0 +1,19 @@
+.post-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+textarea{
+    height: 75px;
+}
+
+.post-btn{
+    width: 100px;
+}
+
+.aside{
+    background-color: red;
+    margin-top: 1rem;
+}

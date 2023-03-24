@@ -1,0 +1,32 @@
+.post-container{
+    /* height: 100%; */
+}
+
+.single-post{
+    /* background-color: aqua; */
+    width: 400px;
+    word-wrap: break-word;
+    margin: 1rem 7px;
+    border: 2px gray solid;
+}
+
+.header{
+    border: 2px gray solid;
+}
+
+.header-image, .header-name, .header-time{
+    margin: 5px;
+}
+
+.footer{
+    border: 2px grey solid;
+}
+
+.post-content{
+    width: 100%;
+    flex-wrap: wrap;
+word-wrap: break-word;
+}
+.single-post section{
+    width: 100%;
+}

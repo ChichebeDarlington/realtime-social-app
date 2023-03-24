@@ -23,6 +23,7 @@ const initialState = {
 const UserProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(reducer, initialState)
+    // console.log(state);
 
     const navigate = useNavigate()
 
@@ -38,6 +39,12 @@ const UserProvider = ({ children }) => {
       return {}
     }
  
+// axios interceptors
+const token = state?.user?.token ? state.user.token : "";
+axios.defaults.baseURL = import.meta.env.VITE_URL;
+axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
+
+
     const handleChange = async(e)=>{
        const {name, value} = e.target
         dispatch({type:HANDLE_CHANGE, payload:{name, value}})
@@ -48,7 +55,7 @@ const UserProvider = ({ children }) => {
       const {name,password, email} = state;
       dispatch({type:HANDLE_REGISTRATION, payload:{name,password, email}})
         try {
-         const {data} = await axios.post(`${import.meta.env.VITE_URL}/register`,{name, password, email})
+         const {data} = await axios.post(`/register`,{name, password, email})
         setLocalStorage(data)
         toast("Registration successful")
         navigate("/")
@@ -63,7 +70,7 @@ const UserProvider = ({ children }) => {
       const {password, email} = state;
       dispatch({type:HANDLE_LOGIN, payload:{password, email}})
         try {
-         const {data} = await axios.post(`${import.meta.env.VITE_URL}/login`,{password, email})
+         const {data} = await axios.post(`/login`,{password, email})
          setLocalStorage(data)
         toast("Login successful")
         navigate("/dashboard")
