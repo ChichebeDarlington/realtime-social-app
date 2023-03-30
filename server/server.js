@@ -18,8 +18,8 @@ app.use(
     // origin: ["http://localhost:5173"],
   })
 );
-app.use("/api/", userRouter)
-app.use("/api/", postRouter)
+app.use("/api", userRouter)
+app.use("/api", postRouter)
 
 
 
