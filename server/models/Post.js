@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 
 const {Schema} = mongoose;
+// console.log(Schema);
 const postSchema = new Schema({
   content: {
     type: String,
@@ -23,6 +24,6 @@ const postSchema = new Schema({
     url: String,
     public_id: String
   }
-}, {timestamp:true})
+}, {timestamps:true})
   
 export default mongoose.model('Post', postSchema)

@@ -42,7 +42,7 @@ export const userPosts = async (req, res)=>{
     // console.log(req.body)
 try {
     const posts = await Post.find({postedBy: req.auth.userId})
-    .populate("postedBy", "image _id name")
+    .populate("postedBy", "_id name")
     .sort({created: -1})
     .limit(10)
     // console.log(posts);
@@ -65,3 +65,15 @@ export const imageUpload = async(req, res)=>{
         console.log(error);
     }
 }
+
+export const editPost = async(req, res)=>{
+    
+    try {
+        const post = await Post.findById(req.params.postId)
+        res.json(post)
+        
+    } catch (error) {
+        console.log(error)
+    }
+}
+

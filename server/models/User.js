@@ -27,6 +27,6 @@ const UserSchema = new Schema({
   photo:String,
   following:[{type:Schema.ObjectId, ref:"User"}],
   followers:[{type:Schema.ObjectId, ref:"User"}]
-}, {timestamp:true})
+}, {timestamps:true})
   
 export default mongoose.model('User', UserSchema)
