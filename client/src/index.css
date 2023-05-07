@@ -1,24 +1,29 @@
-*, *::after, *::after {
-    box-sizing: border-box;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+*::after,
+*::after {
+  box-sizing: border-box;
 }
 
-body{
-    box-sizing: border-box;
-    margin: 0;
-    width: 100vw;
-    height: 100vh;
-    background: #ecf0f3;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-    place-items: center;
-    /* overflow: hidden; */
+body {
+  box-sizing: border-box;
+  margin: 0;
+  height: 100vh;
+  background: #ecf0f3;
+  position: relative;
+  overflow-x: hidden;
 }
 
-.link{
-text-decoration: none;
-font-weight: 600;
-font-size: 16px;
-color: #1DA1F2;
+.link {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 16px;
+  color: #1da1f2;
+}
+
+.App {
+  height: 100vh;
 }

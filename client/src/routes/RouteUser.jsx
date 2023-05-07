@@ -1,37 +1,40 @@
-import { useEffect, useState } from "react"
-import {useNavigate} from "react-router-dom"
-import axios from "axios"
-import { useContextHook } from "../components/context/ContextAPI"
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useContextHook } from "../components/context/ContextAPI";
 
-const RouteUser = ({children}) =>{
-    const {user} = useContextHook()
-    const [okay, setOkay] = useState(false)
-     const navigate = useNavigate()
+const RouteUser = ({ children }) => {
+  const { user } = useContextHook();
+  const [okay, setOkay] = useState(false);
+  const navigate = useNavigate();
 
-     const userAuth = async()=>{
-        try {
-            const {data} = await axios(`/current-user`)
-            if(data.okay){
-                setOkay(data.okay)
-            }
-            
-        } catch (error) {
-            navigate("/login")
-        }
+  console.log(user);
+
+  const userAuth = async () => {
+    try {
+      const { data } = await axios(`/current-user`);
+      console.log(data);
+
+      if (data.okay) {
+        setOkay(data.okay);
+      }
+    } catch (error) {
+      navigate("/login");
     }
-    console.log(okay);
+  };
+  console.log(okay);
 
-     useEffect(()=>{
-       if(user?.token) userAuth()
-     },[user?.token])
+  useEffect(() => {
+    if (user?.token) userAuth();
+  }, [user?.token]);
 
-if(user.user === null){
-    setTimeout(()=>{
-        userAuth()
-    },1000)
-}
+  if (user === null) {
+    setTimeout(() => {
+      userAuth();
+    }, 1000);
+  }
 
-     return !okay? <span>Hello</span> : (<>{children}</> )
-}
+  return okay ? <> {children} </> : <span>Hello</span>;
+};
 
-export default RouteUser
+export default RouteUser;

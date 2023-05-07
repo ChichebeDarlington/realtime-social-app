@@ -52,7 +52,7 @@ input {
   margin-top: 10px;
 }
 
-label, input, button {
+ label, input, button {
   display: block;
   width: 100%;
   padding: 0;
@@ -84,7 +84,7 @@ input {
   box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white;
 }
 
-button {
+.container button {
   color: white;
   margin-top: 20px;
   background: #1DA1F2;

@@ -1,19 +1,45 @@
 .post-container{
+   width: 100%;
+}
+
+.form-textarea{
+    width: 100%;
+}
+
+.form-textarea textarea{
+    width: 370px;
+    height: 70px;
+    border: 2px solid grey;
+    margin-bottom: 5px;
+}
+
+
+.file-and-button{
+    /* background-color: red; */
+    width: 370px;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-textarea{
-    height: 75px;
+.file-and-button label{
+    margin-left: 5px;
+    cursor: pointer;
 }
 
 .post-btn{
-    width: 100px;
+    width: 50px;
+    color: white;
+    background: #1DA1F2;
+    height: 20px;
+    margin-right: 5px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: 900;
 }
 
-.aside{
-    background-color: red;
-    margin-top: 1rem;
+label input {
+    display: none;
 }
+
+

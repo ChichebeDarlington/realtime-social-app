@@ -2,6 +2,7 @@ import {
     HANDLE_CHANGE,
     HANDLE_REGISTRATION,
     HANDLE_LOGIN,
+    LOG_OUT,
     RELOAD
 } from "../action/action"
 
@@ -18,14 +19,14 @@ if(action.type === HANDLE_REGISTRATION){
 }
 
 if(action.type === HANDLE_LOGIN){
-    return {...state, redirect:true, user: action.payload}
+    return {...state, user: action.payload}
 }
 
 if(action.type === RELOAD){
     return {...state, user: action.payload}
 }
 
-if(action.type === "LOG_OUT"){
+if(action.type === LOG_OUT){
     return {...state, user: null}
 }
 

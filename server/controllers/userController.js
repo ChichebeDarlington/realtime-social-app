@@ -1,82 +1,87 @@
 import User from "../models/User";
-import {hashPassword, comparePassword} from "../bcrypt/bcrypt"
-import jwt from "jsonwebtoken"
+import { hashPassword, comparePassword } from "../bcrypt/bcrypt";
+import jwt from "jsonwebtoken";
 
+export const register = async (req, res) => {
+  const { name, password, email } = req.body;
 
-export const register = async (req, res)=>{
+  if (!name) {
+    return res.status(400).json({ msg: "Name is required" });
+  }
 
-    const {name,password,email} = req.body
+  const emailExist = await User.findOne({ email });
+  if (emailExist) {
+    return res.status(400).json({ msg: "Email is existed in the database" });
+  }
 
-    if(!name){
-        return res.status(400).json({msg: "Name is required"})
-    }
+  if (!email) {
+    return res.status(400).json({ msg: "Email is required" });
+  }
 
-    const emailExist = await User.findOne({email})
-    if(emailExist){
-        return res.status(400).json({msg: "Email is existed in the database"})
-    }
+  if (!password) {
+    return res.status(400).json({ msg: "Password is required" });
+  }
 
-    if(!email){
-        return res.status(400).json({msg: "Email is required"})
-    }
+  const hashedPassword = await hashPassword(password);
 
-    if(!password){
-        return res.status(400).json({msg: "Password is required"})
-    }
+  const user = new User({ name, email, password: hashedPassword });
+  // .populate(" name ")
+  // console.log(req.body);
+  const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+    expiresIn: "170d",
+  });
+  try {
+    await user.save();
+    // console.log(user);
+    return res.status(200).json({ user, token });
+  } catch (error) {
+    console.log(error);
+    return res.status(404).json({ err: "Try again, something gone wrong" });
+  }
+};
 
-    const hashedPassword = await hashPassword(password)
+export const login = async (req, res) => {
+  const { email, password } = req.body;
 
-    const user = new User({name, email, password:hashedPassword})
-    // console.log(req.body);
-    try {
-        await user.save()
-        // console.log(user);
-        return res.status(200).json({user})
-    } catch (error) {
-        console.log(error);
-        return res.status(404).json({err: "Try again, something gone wrong"})
-    }
-}
+  if (!email) {
+    return res.status(300).json({ err: "Email field is empty" });
+  }
 
-export const login = async (req, res)=>{
-    
-    const {email, password} = req.body;
+  if (!password) {
+    return res.status(300).json({ err: "Password field is empty" });
+  }
 
-if(!email){
-    return res.status(300).json({err: "Email field is empty"})
-}
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.status(404).json({ err: "No user with such an email" });
+  }
 
-if(!password){
-    return res.status(300).json({err: "Password field is empty"})
-}
+  const verifyPassword = await comparePassword(password, user.password);
+  if (!verifyPassword) {
+    return res.status(400).json({ err: "Wrong password" });
+  }
 
-    const user =  await User.findOne({email})
-    if(!user){
-        return res.status(404).json({err: "No user with such an email"})
-    }
+  const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+    expiresIn: "170d",
+  });
 
-    const verifyPassword = await comparePassword(password, user.password);
-    if(!verifyPassword){
-        return res.status(400).json({err: "Wrong password"})
-    }
+  try {
+    // console.log(user, token);
+    return res.status(200).json({ user, token });
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ err: "Check if credentials are correct" });
+  }
+};
 
-    const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {expiresIn: "17d"})
-
-    try {
-        // console.log(user, token);
-        return res.status(200).json({user,token})
-    } catch (error) {
-        console.log(error);
-        return res.status(400).json({err: "Check if credentials are correct"})
-    }
-}
-
-export const currentUser = async(req, res) =>{
-    try {
-        const user = await User.findById(req.auth.userId)
-        return res.json({okay:true})
-    } catch (error) {
-        console.log(error);
-        return res.sendStatus(400)
-    }
-}
+export const currentUser = async (req, res) => {
+  // console.log(req.auth)
+  try {
+    const user = await User.findById(req.auth._id);
+    // console.log(user);
+    return res.json({ okay: true });
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(400);
+  }
+};

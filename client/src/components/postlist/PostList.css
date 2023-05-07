@@ -1,13 +1,11 @@
 .post-container{
-    /* height: 100%; */
+    width: 370px;
 }
 
 .single-post{
-    /* background-color: aqua; */
-    width: 400px;
-    word-wrap: break-word;
-    margin: 1rem 7px;
+    width: 370px;
     border: 2px gray solid;
+    margin-top: 10px;
 }
 
 .header{
@@ -25,8 +23,25 @@
 .post-content{
     width: 100%;
     flex-wrap: wrap;
-word-wrap: break-word;
 }
 .single-post section{
     width: 100%;
+}
+
+.content-crud{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.delete, .edit, .comment, .like{
+    cursor: pointer;
+}
+
+.content-crud .delete{
+    color: red;
+}
+
+.content-crud .edit{
+    color: blue;
 }

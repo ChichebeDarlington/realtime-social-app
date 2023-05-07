@@ -1,5 +1,14 @@
 .dashboard{
-    width: 90%;
-    height: 100vh;
-    margin: 0 auto;
+width: 100%;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+margin-top: 70px;
+}
+.flex-aside-postList{
+    /* display: flex; */
+}
+.dashboard aside{
+    visibility: hidden;
 }
